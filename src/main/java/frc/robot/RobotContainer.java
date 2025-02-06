@@ -43,6 +43,8 @@ public class RobotContainer {
     private final XboxController m_shooterController = new XboxController(
       OperatorConstants.shooterControllerPort);
 
+    private final Joystick m_joystick = new Joystick(OperatorConstants.driverControllerPort);
+
     private final ScoreAlgae m_scoreAlgae = new ScoreAlgae(
       new VictorSPX(AlgaeScoringConstants.VictorSPXAlgaeCanId));
 
