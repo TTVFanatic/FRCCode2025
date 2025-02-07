@@ -71,6 +71,7 @@ public class MAXSwerveModule {
         correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
         correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
+        
         m_drivingClosedLoopController.setReference(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
         m_turningClosedLoopController.setReference(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
 

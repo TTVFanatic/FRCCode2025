@@ -8,9 +8,11 @@ public class Constants {
     public static final class DriveConstants {
         public static final double kMaxSpeedMetersPerSecond = 4.8;
         public static final double kMaxAngularSpeed = 2 * Math.PI;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
 
-        public static final double kTrackWidth = Units.inchesToMeters(26.5);
-        public static final double kWheelBase = Units.inchesToMeters(26.5);
+        public static final double kTrackWidth = Units.inchesToMeters(23.45);
+        public static final double kWheelBase = Units.inchesToMeters(28.45);
+        
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
@@ -60,5 +62,6 @@ public class Constants {
 
     public static final class AlgaeScoringConstants {
         public static final int VictorSPXAlgaeCanId = 5;
+        public static final int VictorSPXCimAlgaeCanId = 1;
     }
 }

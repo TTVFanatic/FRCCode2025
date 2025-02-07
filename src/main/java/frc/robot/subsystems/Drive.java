@@ -1,11 +1,11 @@
 package frc.robot.subsystems;
 
-import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.TobyAHRS;
 
 public class Drive extends SubsystemBase {
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -41,8 +42,7 @@ public class Drive extends SubsystemBase {
         DriveConstants.kBackRightChassisAngularOffset
     );
 
-
-    private AHRS navx = new AHRS(NavXComType.kMXP_SPI);
+    private TobyAHRS navx = new TobyAHRS(NavXComType.kMXP_SPI);
 
     public double speed = 1;
 
@@ -54,7 +54,12 @@ public class Drive extends SubsystemBase {
             m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
+
         });
+
+    SlewRateLimiter m_xAccelerationLimiter = new SlewRateLimiter(DriveConstants.kMaxAccelerationMetersPerSecondSquared);
+    SlewRateLimiter m_yAccelerationLimiter = new SlewRateLimiter(DriveConstants.kMaxAccelerationMetersPerSecondSquared);
+
 
     public Drive() {
         HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
@@ -103,6 +108,12 @@ public class Drive extends SubsystemBase {
 
 
     public void _drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+        xSpeed = m_xAccelerationLimiter.calculate(xSpeed) * speed;
+        ySpeed = m_yAccelerationLimiter.calculate(ySpeed) * speed;
+
+        rot *= speed;
+
+
         double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
         double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
         double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
@@ -113,7 +124,7 @@ public class Drive extends SubsystemBase {
                     Rotation2d.fromDegrees(navx.getAngle()))
                 : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
         SwerveDriveKinematics.desaturateWheelSpeeds(
-                swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+            swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -121,10 +132,10 @@ public class Drive extends SubsystemBase {
     }
 
 
-    public void setX() {
+    public void setX(){
         m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-        m_rearLeft.setDesiredState(new SwerveModuleState(0,Rotation2d.fromDegrees(-45)));
+        m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
         m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
 
@@ -141,8 +152,8 @@ public class Drive extends SubsystemBase {
 
     public void resetEncoders() {
         m_frontLeft.resetEncoders();
-        m_rearLeft.resetEncoders();
         m_frontRight.resetEncoders();
+        m_rearLeft.resetEncoders();
         m_rearRight.resetEncoders();
     }
 

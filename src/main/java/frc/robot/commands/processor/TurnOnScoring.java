@@ -18,7 +18,7 @@ public class TurnOnScoring extends Command {
 
     @Override
     public void initialize() {
-        m_scoreAlgae.shootAlgae(m_controller.getLeftTriggerAxis() * 100);
+        m_scoreAlgae.shootAlgae(m_controller.getLeftTriggerAxis());
     }
 
 

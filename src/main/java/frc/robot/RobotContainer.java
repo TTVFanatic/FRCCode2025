@@ -40,13 +40,14 @@ public class RobotContainer {
   private final XboxController m_driveController = new XboxController(
     OperatorConstants.driverControllerPort);
 
-    private final XboxController m_shooterController = new XboxController(
-      OperatorConstants.shooterControllerPort);
+  private final XboxController m_shooterController = new XboxController(
+    OperatorConstants.shooterControllerPort);
 
-    private final Joystick m_joystick = new Joystick(OperatorConstants.driverControllerPort);
+  private final Joystick m_joystick = new Joystick(
+    OperatorConstants.driverControllerPort);
 
-    private final ScoreAlgae m_scoreAlgae = new ScoreAlgae(
-      new VictorSPX(AlgaeScoringConstants.VictorSPXAlgaeCanId));
+  private final ScoreAlgae m_scoreAlgae = new ScoreAlgae(
+    new VictorSPX(AlgaeScoringConstants.VictorSPXAlgaeCanId));
 
 
 
@@ -56,9 +57,9 @@ public class RobotContainer {
     new Trigger(() -> m_driveController.getRightTriggerAxis() > 0.1)
       .whileTrue(new RunCommand(() -> m_drive.setX(), m_drive));
 
-    
-    // new Trigger(() -> m_driveController.getLeftBumperButon())
-    //   .onTrue(new ChangeDriveSpeed(m_drive, m_driveController));
+
+    new Trigger(() -> m_joystick.getRawButton(3) || m_joystick.getRawButton(4))
+      .whileTrue(new RunCommand(() -> m_drive.setX(), m_drive));
 
 
     new Trigger(() -> m_shooterController.getLeftTriggerAxis() > 0.0)
