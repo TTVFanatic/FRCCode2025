@@ -61,7 +61,11 @@ public class Constants {
     }
 
     public static final class AlgaeScoringConstants {
-        public static final int VictorSPXAlgaeCanId = 5;
+        public static final int VictorSPXAlgaeCanId = 10;
         public static final int VictorSPXCimAlgaeCanId = 1;
+    }
+
+    public static final class ElevatorConstants {
+        public static final int elevatorCanId = 11;
     }
 }

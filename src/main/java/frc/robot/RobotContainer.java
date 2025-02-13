@@ -13,11 +13,14 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.AlgaeScoringConstants;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.AutonomousCommand;
 //import frc.robot.commands.ChangeDriveSpeed;
 import frc.robot.commands.processor.*;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ScoreAlgae;
+import frc.robot.subsystems.Elevator;
 
 @SuppressWarnings("resource")
 
@@ -49,7 +52,7 @@ public class RobotContainer {
   private final ScoreAlgae m_scoreAlgae = new ScoreAlgae(
     new VictorSPX(AlgaeScoringConstants.VictorSPXAlgaeCanId));
 
-
+  private final Elevator m_elevator = new Elevator(ElevatorConstants.elevatorCanId);
 
 
   private void configureBindings() {
