@@ -17,6 +17,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.AutonomousCommand;
 //import frc.robot.commands.ChangeDriveSpeed;
 import frc.robot.commands.processor.*;
+import frc.robot.commands.Elevator.*;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ScoreAlgae;
@@ -52,7 +53,8 @@ public class RobotContainer {
   private final ScoreAlgae m_scoreAlgae = new ScoreAlgae(
     new VictorSPX(AlgaeScoringConstants.VictorSPXAlgaeCanId));
 
-  private final Elevator m_elevator = new Elevator(ElevatorConstants.elevatorCanId);
+    private final Elevator m_elevator = new Elevator(
+      ElevatorConstants.elevatorCanId);
 
 
   private void configureBindings() {
@@ -75,6 +77,9 @@ public class RobotContainer {
 
     new Trigger(() -> m_shooterController.getAButtonPressed())
       .onTrue(new AlgaeFullPower(m_scoreAlgae));
+
+    new Trigger(() -> m_shooterController.getBButtonPressed())
+      .whileTrue(new runElevator(m_elevator));
   }
 
 
