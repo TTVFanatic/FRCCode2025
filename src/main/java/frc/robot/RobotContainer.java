@@ -19,7 +19,7 @@ import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.processor.*;
 import frc.robot.commands.Elevator.*;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.ElevatorV1;
 import frc.robot.subsystems.ScoreAlgae;
 //import frc.robot.subsystems.Elevator;
 
@@ -53,7 +53,7 @@ public class RobotContainer {
   private final ScoreAlgae m_scoreAlgae = new ScoreAlgae(
     new VictorSPX(AlgaeScoringConstants.VictorSPXAlgaeCanId));
 
-    private final Elevator m_elevator = new Elevator(
+    private final ElevatorV1 m_elevator = new ElevatorV1(
       ElevatorConstants.elevatorCanId);
 
 
@@ -65,10 +65,6 @@ public class RobotContainer {
 
     new Trigger(() -> m_joystick.getRawButton(3) || m_joystick.getRawButton(4))
       .whileTrue(new RunCommand(() -> m_drive.setX(), m_drive));
-
-
-    new Trigger(() -> m_shooterController.getLeftTriggerAxis() > 0.0)
-      .onTrue(new TurnOnScoring(m_scoreAlgae, m_shooterController));
 
 
     new Trigger(() -> m_shooterController.getXButtonPressed())

@@ -66,6 +66,25 @@ public class Constants {
     }
 
     public static final class ElevatorConstants {
+        // Creating the variables for the elevator subsystem
+        // The CAN ID for the elevators motor controller
         public static final int elevatorCanId = 11;
+        // Setting the elevator start height (0)
+        public static final int elevatorStartHeight = 0; // start height of elevator to the robot
+        // Creating and setting the number of rotations it takes to get to each extension
+        // level with a 15:1 gear box ratio
+        public static final int reefLevelOneHeightRotations = 0 / 15; // "0" is a placeholder
+        public static final int reefLevelTwoHeightRotations = 0 / 15; // "0" is a placeholder
+        public static final int reefLevelThreeHeightRotations = 0 / 15; // "0" is a placeholder
+        public static final int reefLevelFourHeightRotations = 0 / 15; // "0" is a placeholder
+        
+        public static final int kPositionConversionFactor = 1;
+        public static final int kVelocityConversionFactor = 1;
+    }
+
+    public static final class LiftConstants {
+        // Setting the CAN ID's for the winch and the hook for the hanging mechanism
+        public static final int winchSPXCanId = 12; // "0" is a placeholder
+        public static final int HookMAXCanId = 13; // "0" is a placeholder
     }
 }
